@@ -1,0 +1,8 @@
+# Bağımlılık klasörü
+node_modules
+
+# Ortam değişkenleri dosyası
+.env
+
+# Postman koleksiyon dosyası
+postman_collection.json
