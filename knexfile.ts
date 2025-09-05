@@ -1,16 +1,16 @@
-// Update with your config settings.
+import type { Knex } from 'knex';
 
-/**
- * @type { Object.<string, import("knex").Knex.Config> }
- */
-module.exports = {
-
+const config: { [key: string]: Knex.Config } = {
   development: {
     client: 'postgresql',
     connection: {
       database: 'restaurant_db',
       user:     'postgres',
       password: 'postgres'
+    },
+    migrations: {
+      directory: './migrations',
+      extension: 'ts'
     }
   },
 
@@ -45,5 +45,7 @@ module.exports = {
       tableName: 'knex_migrations'
     }
   }
-
 };
+
+export default config;
+
