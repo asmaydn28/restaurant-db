@@ -5,6 +5,10 @@ const config = {
             database: 'restaurant_db',
             user: 'postgres',
             password: 'postgres'
+        },
+        migrations: {
+            directory: './migrations',
+            extension: 'ts'
         }
     },
     staging: {
