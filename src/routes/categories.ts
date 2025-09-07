@@ -100,12 +100,30 @@ router.delete("/:id", async (req, res) => {
   }
 });
 
-// GET => TÜM KATEGORİLERİ GETİRME (SİLİNENLER HARİÇ)
+// GET => TÜM KATEGORİLERİ GETİRME (FİLTRELİ)
 router.get("/", async (req, res) => {
   try {
-    // Sadece deleted_at null olanları getir
-    const categories = await db("categories").where({ deleted_at: null });
+    // 1. Query string'den filtre parametrelerini al
+    const { showDeleted, onlyDeleted } = req.query;
+
+    // 2. Temel sorguyu oluştur
+    let query = db("categories");
+
+    // 3. Filtreleme mantığını uygula
+    if (onlyDeleted === 'true') {
+      // Sadece silinmiş olanları getir
+      query.whereNotNull("deleted_at");
+    } else if (showDeleted === 'true') {
+      // Hiçbir filtreleme yapma, tümünü getir
+    } else {
+      // Varsayılan olarak sadece aktif olanları getir
+      query.whereNull("deleted_at");
+    }
+
+    // 4. Hazırlanan sorguyu çalıştır
+    const categories = await query;
     res.status(200).json(categories);
+    
   } catch (error) {
     console.error(error);
     res
